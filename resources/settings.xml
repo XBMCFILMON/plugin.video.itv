@@ -4,6 +4,8 @@
     <setting id="subtitles_control" label="30130"  type="bool" default="false" />
     <setting id="video_stream" label="30210" type="enum" values="Auto|H.264 (400Kb)|H.264 (600kb)|H.264 (800kb)|H.264 (1200kb)" default="0" />
     <setting id="live_stream" label="30211" type="enum" values="600kb|800kb|1200kb" default="0" />
+    <setting id="ga_time" type="text" label="GA Called" default="2000-01-01 00:00:00" visible="false"/>
+    <setting id="visitor_ga" type="text" label="GA visitor" default="" visible="false"/>
   </category>
   <!-- Proxy -->
   <category label="30300">

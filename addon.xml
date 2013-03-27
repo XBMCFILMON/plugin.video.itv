@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.itv"
-       name="ITV"
-       version="2.0.3"
-       provider-name="dlake02">
+<addon id="plugin.video.itv" name="ITV" version="2.0.5" provider-name="dlake02, Mikey1234">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
   </requires>
-  <extension point="xbmc.python.pluginsource"
-            library="default.py">
+  <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
