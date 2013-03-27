@@ -381,7 +381,7 @@ def EPS(url):
                 #print "EPISODE %s" % match_episode[0]
                 episode = match_episode[0]
             addDir2(name2 + ' - ' + name,link,3,date, episode,image.replace('player_image_thumb_standard','posterframe'),synopsis,isFolder=False)
-            xbmcplugin.setContent(handle=int(sys.argv[1]), content='episodes')
+            xbmcplugin.setContent(int(sys.argv[1]), content='episodes')
     else:
         #print 'TRYING !!!!!'
         match1 = re.findall(ur'about="(.*?)" typeof="sioc:Item foaf:Document">.*?<div class="hero">.*?<h1 class="title episode-title" property="dc:title" datatype="">(.*?) <.*?datatype="xsd:dateTime" content="(.*?)T.*?">.*?</span></div></div></div>(.*?)<div class="field field-name-field-short-synopsis.*?<div class="field-item even">(.*?)</div></div></div>', buf, flags=re.DOTALL)
@@ -399,7 +399,7 @@ def EPS(url):
                     episode = match_episode[0]
                 image = icon
                 addDir2(name2 + ' - ' + name,link,3,date, episode,image.replace('player_image_thumb_standard','posterframe'),synopsis,isFolder=False)
-                xbmcplugin.setContent(handle=int(sys.argv[1]), content='episodes')
+                xbmcplugin.setContent(int(sys.argv[1]), content='episodes')
         else:
                 if re.search('Free Taster',buf):
                     match1 = re.compile('Free Taster      </div>\n.+?class="button button-style-b button-slim"><a href="(.+?)">').findall(buf)
@@ -414,14 +414,14 @@ def EPS(url):
                     match1 = re.compile('<meta property="og:image" content="(.+?)" />\n.+?"og:url" content="https://www.itv.com(.+?)".+?\n.+?\n.+?\n.+?\n.+?property="og:title" content="Episode (.+?)" />\n.+?\n.+?"description" content="(.+?)" />\n.+?\n.+?title>(.+?) \|').findall(buf)
                     for image,url,eps,description,name in match1:
                         addDir2(name,url,3,'Unknown', eps,image.replace('player_image_thumb_standard','posterframe'),description,isFolder=False)
-                        xbmcplugin.setContent(handle=int(sys.argv[1]), content='episodes')
+                        xbmcplugin.setContent(int(sys.argv[1]), content='episodes')
                 else:
                     match1 = re.compile('<meta property="og:image" content="(.+?)" />\n.+?"og:url" content="https://www.itv.com(.+?)".+?\n.+?\n.+?\n.+?\n.+?property="og:title" content="Episode (.+?)" />\n.+?\n.+?"description" content="(.+?)" />\n.+?\n.+?title>(.+?) \|').findall(buf)
                     if match1:
                         date = re.compile('datatype="xsd:dateTime" content="(.+?)T').findall(buf)
                         for image,url,eps,description,name in match1:
                             addDir2(name,url,3,date[0], eps,image.replace('player_image_thumb_standard','posterframe'),description,isFolder=False)
-                            xbmcplugin.setContent(handle=int(sys.argv[1]), content='episodes')
+                            xbmcplugin.setContent(int(sys.argv[1]), content='episodes')
                     else:
                         try:
                             match1 = re.compile('<meta property="og:url" content="https://www.itv.com(.+?)" />\n.+?\n.+?\n.+?\n.+?meta property="og:description" content="(.+?)" />\n.+?\n.+?\n.+?property="og:title" content="Episode (.+?):.+?" />\n.+?title>(.+?) \|').findall(buf)
@@ -429,7 +429,7 @@ def EPS(url):
                             for url,description,eps,name in match1:
                                 image = icon 
                                 addDir2(name,url,3,date[0], eps,image,description,isFolder=False)
-                                xbmcplugin.setContent(handle=int(sys.argv[1]), content='episodes')
+                                xbmcplugin.setContent(int(sys.argv[1]), content='episodes')
                         except:
                             pass
 
