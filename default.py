@@ -1,4 +1,6 @@
-import urllib,urllib2,re,sys,socket,os,md5,datetime,xbmcplugin,xbmcgui, xbmcaddon
+import urllib,urllib2,re,sys,socket,os,datetime,xbmcplugin,xbmcgui, xbmcaddon
+from hashlib import md5
+
 
 # external libs
 sys.path.insert(0, xbmc.translatePath(os.path.join('special://home/addons/plugin.video.itv', 'lib')))
@@ -161,6 +163,7 @@ def CATS():
         addDir('ITV4 Live','http://www.itv.com/ukonly/mediaplayer/xml/channels.itv4.xml',7,foricon+'art/4.png',isFolder=False)
         
 def PLAY_STREAM(name,url):
+    GA('Live',name.replace(' Live',''))
     response = get_url(url).replace('&amp;','&')
     rtmp=re.compile('<MediaFiles base="(.+?)"').findall(response)
     playpath=re.compile('CDATA\[(.+?)\]').findall(response) 
@@ -183,7 +186,6 @@ def PLAY_STREAM(name,url):
     pl.clear()
     pl.add(url, liz)
     xbmc.Player(xbmc.PLAYER_CORE_MPLAYER).play(pl)
-    GA('Live',name.replace(' Live',''))
 
 def STREAMS():
         streams=[]
@@ -349,7 +351,7 @@ def EPS(url):
         urllib2.install_opener(opener)
     #url = 'https://www.itv.com/itvplayer%s' % url
     url = 'https://www.itv.com%s' % url
-    print "URL %s" % url
+    #print "URL %s" % url
     f = urllib2.urlopen(url)
     buf = f.read()
     buf=re.sub('&amp;','&',buf)
@@ -607,12 +609,12 @@ def VIDEO(url):
             player = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
             play.clear()
             play.add(url,listitem)
-            player.play(play)
-            pDialog.close()
             try:
                 GA('Player',name.split(':')[0])
             except:
                 GA('Player',name)
+            player.play(play)
+            pDialog.close()
             if (there_are_subtitles == 1):
                 player.setSubtitles(subtitles_file)
         except:
@@ -800,7 +802,6 @@ def APP_LAUNCH():
             logfile = open(log, 'r').read()
             match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
         elif versionNumber > 11:
-            print '======================= more than ===================='
             log_path = xbmc.translatePath('special://logpath')
             log = os.path.join(log_path, 'xbmc.log')
             logfile = open(log, 'r').read()
@@ -887,11 +888,12 @@ def addDir(name,url,mode,iconimage,plot='',isFolder=True):
             except:
                 menu.append(('Add to Favorites','XBMC.Container.Update(%s?mode=13&iconimage=%s&url=%s&name=%s)' %(sys.argv[0],iconimage,url,name)))
             liz.addContextMenuItems(items=menu, replaceItems=True)
+        if mode==3:
+            xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_DATE)        
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=isFolder)
         return ok
 
 def addDir2(name,url,mode,date, episode,iconimage,plot='',isFolder=True):
-        print "DATE %s" % date
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
         liz=xbmcgui.ListItem(name,iconImage="DefaultVideo.png", thumbnailImage=iconimage)
